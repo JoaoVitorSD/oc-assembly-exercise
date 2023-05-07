@@ -16,7 +16,7 @@ beq t0, a0, OK1
 beq zero, zero, T2
 OK1: addi s0, s0, 1 #Teste ok, passou
 #Teste 2
-T2: addi a0, zero, 1
+T2: addi a0, zero, 11
 addi a1, zero, 6
 la a2, vetor
 jal ra, primos
@@ -36,20 +36,27 @@ increasePrimeTest: beq t1, a4, truePrime
     jalr zero, 0(x1)
 truePrime: addi a3, zero, 1
     jalr zero, 0(x1)
-
-primos: add s2, a0, zero
+primos: 
+	addi s7, zero, 2
+	add s2, a0, zero
     add s4, zero, zero
     addi s5, zero, 1
     addi s6, a1, 1
-primosLoop: bge s2, s6, end
     add a4, s2, zero
-    addi s2, s2, 1
-    jal ra, isPrime
+    bge s2, s7, primosLoop
+    addi a4, a4, 1
+primosLoop: beq a4, s6, end
+  	addi sp, sp, -4
+	sw ra, 0(sp)
+	jal ra, isPrime
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	addi a4, a4, 1
     beq a3, s5, saveInRegister
     beq x0, x0, primosLoop
-saveInRegister: sw s3, 0(a2)
+saveInRegister: sw a4, 0(a2)
                 addi s4, s4, 1
-                addi a2, a2, 8
+                addi a2, a2, 4
                 beq x0, x0, primosLoop
 end:  add a0, s4, zero
     jalr zero, 0(x1)
