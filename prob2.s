@@ -18,13 +18,13 @@ beq zero,zero,FIM
 verifica:
         addi sp, sp, -4
 	    sw ra, 0(sp)
-        addi t3, zero, 10
-        jal zero, multvetores
+        jal ra, multvetores
         lw ra, 0(sp)
 	    addi sp, sp, 4
         lw s5, 0(a0)
         rem s3, a2, s10
         sub s4, s10, s3
+        rem s4, s4, s10
         beq s5, s4, valid
         addi a1, zero, 0
         beq zero, zero, endVerifica
@@ -50,9 +50,8 @@ endMulti: add a2, s4, zero
         jalr zero, 0(ra)
 multiOdd: addi s3, zero 1
         mul s7,s6, s1
-        blt s7, s10, sumPart
-        beq zero, zero, continue
-        sumPart: addi s7, s7, -9
+        blt s7, s10, continue
+         addi s7, s7, -9
         beq zero, zero, continue
 multiEven: addi s3, zero, 0
         mul s7,s6, s2
